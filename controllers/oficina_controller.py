@@ -15,6 +15,12 @@ oficina_bp = Blueprint("oficina", __name__)
 # =====================================================================
 
 
+@oficina_bp.before_request
+def exigir_login():
+    if not session.get("usuario_id"):
+        return redirect(url_for("auth.login"))
+
+
 # Listagem (GET) e cadastro (POST) na mesma rota
 @oficina_bp.route("/", methods=["GET", "POST"])
 def index():
