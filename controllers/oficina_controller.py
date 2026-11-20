@@ -33,6 +33,7 @@ def index():
     # A chave deve se chamar "consultas". O template ja exibe o valor.
     # =================================================================
 
+    session["consultas"] = session.get("consultas", 0) + 1
     return render_template("index.html", oficinas=OficinaDAO.listar())
 
 
