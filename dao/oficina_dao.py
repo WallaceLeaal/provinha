@@ -10,6 +10,7 @@ class OficinaDAO:
     @staticmethod
     def salvar(oficina):
         db.session.add(oficina)
+        db.session.commit()
 
     # READ (todos)
     @staticmethod
