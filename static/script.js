@@ -24,8 +24,32 @@ function desenharLista(dados) {
 
   for (var i = 0; i < dados.length; i = i + 1) {
     var item = document.createElement("li");
-    item.textContent = dados[i].titulo + " — " + dados[i].instrutor;
+    var oficina = dados[i];
+    var titulo = document.createElement("strong");
+    titulo.textContent = oficina.titulo;
+
+    var editar = document.createElement("a");
+    editar.href = "/editar/" + oficina.id;
+    editar.textContent = "editar";
+
+    var formExcluir = document.createElement("form");
+    formExcluir.method = "post";
+    formExcluir.action = "/excluir/" + oficina.id;
+    var excluir = document.createElement("button");
+    excluir.type = "submit";
+    excluir.textContent = "excluir";
+    formExcluir.appendChild(excluir);
+
+    item.append(titulo, " — " + (oficina.instrutor || "") +
+      " — " + (oficina.vagas ?? "") + " ", editar, formExcluir);
     lista.appendChild(item);
+  }
+
+  var resumo = document.getElementById("resumo-oficinas");
+  if (resumo) {
+    resumo.textContent = dados.length
+      ? dados.length + " registro(s)."
+      : "Nenhuma oficina cadastrada.";
   }
 
   mostrarAviso(dados.length + " registro(s) lido(s) sem recarregar a página.");
@@ -43,6 +67,17 @@ if (botaoAtualizar && lista) {
     // Se nao for possivel falar com o servidor, avise na tela.
     // ================================================================
 
+    fetch("/api/oficinas")
+      .then(function (resposta) {
+        if (!resposta.ok) {
+          throw new Error("Falha na consulta.");
+        }
+        return resposta.json();
+      })
+      .then(desenharLista)
+      .catch(function () {
+        mostrarAviso("Não foi possível atualizar a lista de oficinas.");
+      });
   });
 
 }
