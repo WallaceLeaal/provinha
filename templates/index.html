@@ -26,6 +26,10 @@
          - nao havendo nenhum, a frase:  Nenhuma oficina cadastrada.
        ================================================================== -->
 
+  <p id="resumo-oficinas">
+    {% if oficinas %}{{ oficinas|length }} registro(s).{% else %}Nenhuma oficina cadastrada.{% endif %}
+  </p>
+
   <ul id="lista">
     {% for item in oficinas %}
       <li>
