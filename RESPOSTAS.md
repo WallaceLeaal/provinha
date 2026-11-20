@@ -13,6 +13,6 @@ Explicação: A página inicial redireciona a pessoa sem sessão para o login, p
 
 ## R2 (Item 11)
 
-Status observado:
+Status observado: 405
 
-Explicação:
+Explicação: A rota `/api/oficinas` aceita `GET` para listar as oficinas. Como `PUT` não é aceito nesse endereço, o servidor responde 405 (método não permitido).
